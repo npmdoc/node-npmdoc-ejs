@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="https://github.com/mde/ejs"
-
-    >ejs (v2.5.6)</a>
+    <a href="https://github.com/mde/ejs">ejs (v2.5.6)</a>
 </h1>
 <h4>Embedded JavaScript templates</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.ejs">module ejs</a><ol>
 
@@ -386,15 +379,15 @@
   var opts = {filename: filename};
   var data;
 
-  if (arguments.length &#x3e; 2) {
+  if (arguments.length &gt; 2) {
     data = arguments[1];
 
     // No options object -- if there are optiony names
     // in the data, copy them to options
     if (arguments.length === 3) {
       // Express 4
-      if (data.settings &#x26;&#x26; data.settings[&#x27;view options&#x27;]) {
-        utils.shallowCopyFromList(opts, data.settings[&#x27;view options&#x27;], _OPTS_EXPRESS);
+      if (data.settings &amp;&amp; data.settings['view options']) {
+        utils.shallowCopyFromList(opts, data.settings['view options'], _OPTS_EXPRESS);
       }
       // Express 3 and lower
       else {
@@ -402,7 +395,7 @@
       }
     }
     else {
-      // Use shallowCopy so we don&#x27;t pollute passed in opts obj with new vals
+      // Use shallowCopy so we don't pollute passed in opts obj with new vals
       utils.shallowCopy(opts, arguments[2]);
     }
 
@@ -445,11 +438,11 @@
   var templ;
 
   // v1 compat
-  // &#x27;scope&#x27; is &#x27;context&#x27;
+  // 'scope' is 'context'
   // FIXME: Remove this in a future version
-  if (opts &#x26;&#x26; opts.scope) {
+  if (opts &amp;&amp; opts.scope) {
     if (!scopeOptionWarned){
-      console.warn(&#x27;`scope` option is deprecated and will be removed in EJS 3&#x27;);
+      console.warn('`scope` option is deprecated and will be removed in EJS 3');
       scopeOptionWarned = true;
     }
     if (!opts.context) {
@@ -470,10 +463,10 @@ Try EJS online at: https://ionicabizau.github.io/ejs-playground/.
 ```javascript
 var template = ejs.<span class="apidocCodeKeywordSpan">compile</span>(str, options);
 template(data);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.render(str, data, options);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.renderFile(filename, data, options, function(err, str){
 ...</pre></li>
@@ -490,18 +483,18 @@ ejs.renderFile(filename, data, options, function(err, str){
     <ul>
     <li>description and source-code<pre class="apidocCodePre">escapeXML = function (markup) {
   return markup == undefined
-    ? &#x27;&#x27;
+    ? ''
     : String(markup)
         .replace(_MATCH_HTML, encode_char);
 };
 var _ENCODE_HTML_RULES = {
-      &#x22;&#x26;&#x22;: &#x22;&#x26;amp;&#x22;
-    , &#x22;&#x3c;&#x22;: &#x22;&#x26;lt;&#x22;
-    , &#x22;&#x3e;&#x22;: &#x22;&#x26;gt;&#x22;
-    , &#x27;&#x22;&#x27;: &#x22;&#x26;#34;&#x22;
-    , &#x22;&#x27;&#x22;: &#x22;&#x26;#39;&#x22;
+      "&amp;": "&amp;amp;"
+    , "&lt;": "&amp;lt;"
+    , "&gt;": "&amp;gt;"
+    , '"': "&amp;#34;"
+    , "'": "&amp;#39;"
     }
-  , _MATCH_HTML = /[&#x26;&#x3c;&#x3e;&#x27;&#x22;]/g;
+  , _MATCH_HTML = /[&amp;&lt;&gt;'"]/g;
 function encode_char(c) {
   return _ENCODE_HTML_RULES[c] || c;
 };
@@ -519,9 +512,9 @@ function encode_char(c) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">fileLoader = function (path, options) {
-  options = getOptions(options, { flag: &#x27;r&#x27; });
+  options = getOptions(options, { flag: 'r' });
   var isUserFd = isFd(path); // file descriptor ownership
-  var fd = isUserFd ? path : fs.openSync(path, options.flag || &#x27;r&#x27;, 0o666);
+  var fd = isUserFd ? path : fs.openSync(path, options.flag || 'r', 0o666);
 
   var st = tryStatSync(fd, isUserFd);
   var size = st.isFile() ? st.size : 0;
@@ -541,7 +534,7 @@ function encode_char(c) {
     do {
       bytesRead = tryReadSync(fd, isUserFd, buffer, pos, size - pos);
       pos += bytesRead;
-    } while (bytesRead !== 0 &#x26;&#x26; pos &#x3c; size);
+    } while (bytesRead !== 0 &amp;&amp; pos &lt; size);
   } else {
     do {
       // the kernel lies about many files.
@@ -561,7 +554,7 @@ function encode_char(c) {
   if (size === 0) {
     // data was collected into the buffers list.
     buffer = Buffer.concat(buffers, pos);
-  } else if (pos &#x3c; size) {
+  } else if (pos &lt; size) {
     buffer = buffer.slice(0, pos);
   }
 
@@ -614,13 +607,13 @@ function fileLoader(filePath){
 ```javascript
 var template = ejs.compile(str, options);
 template(data);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.<span class="apidocCodeKeywordSpan">render</span>(str, data, options);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.renderFile(filename, data, options, function(err, str){
-    // str =&#x3e; Rendered HTML string
+    // str =&gt; Rendered HTML string
 });
 ```
 ...</pre></li>
@@ -641,15 +634,15 @@ ejs.renderFile(filename, data, options, function(err, str){
   var opts = {filename: filename};
   var data;
 
-  if (arguments.length &#x3e; 2) {
+  if (arguments.length &gt; 2) {
     data = arguments[1];
 
     // No options object -- if there are optiony names
     // in the data, copy them to options
     if (arguments.length === 3) {
       // Express 4
-      if (data.settings &#x26;&#x26; data.settings[&#x27;view options&#x27;]) {
-        utils.shallowCopyFromList(opts, data.settings[&#x27;view options&#x27;], _OPTS_EXPRESS);
+      if (data.settings &amp;&amp; data.settings['view options']) {
+        utils.shallowCopyFromList(opts, data.settings['view options'], _OPTS_EXPRESS);
       }
       // Express 3 and lower
       else {
@@ -657,7 +650,7 @@ ejs.renderFile(filename, data, options, function(err, str){
       }
     }
     else {
-      // Use shallowCopy so we don&#x27;t pollute passed in opts obj with new vals
+      // Use shallowCopy so we don't pollute passed in opts obj with new vals
       utils.shallowCopy(opts, arguments[2]);
     }
 
@@ -672,18 +665,18 @@ ejs.renderFile(filename, data, options, function(err, str){
     <li>example usage<pre class="apidocCodePre">...
 var template = ejs.compile(str, options);
 template(data);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.render(str, data, options);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.<span class="apidocCodeKeywordSpan">renderFile</span>(filename, data, options, function(err, str){
-    // str =&#x3e; Rendered HTML string
+    // str =&gt; Rendered HTML string
 });
 ```
 
 It is also possible to use `ejs.render(dataAndOptions);` where you pass
-everything in a single object. In that case, you&#x27;ll end up with local variables
+everything in a single object. In that case, you'll end up with local variables
 for all the passed options. However, be aware that your code could break if we
 ...</pre></li>
     </ul>
@@ -704,7 +697,7 @@ for all the passed options. However, be aware that your code could break if we
   var includePath = resolve(isDir ? filename : dirname(filename), name);
   var ext = extname(name);
   if (!ext) {
-    includePath += &#x27;.ejs&#x27;;
+    includePath += '.ejs';
   }
   return includePath;
 }</pre></li>
@@ -715,13 +708,13 @@ for all the passed options. However, be aware that your code could break if we
  */
 function getIncludePath(path, options){
 var includePath;
-if (path.charAt(0) == &#x27;/&#x27;) {
-  includePath = exports.<span class="apidocCodeKeywordSpan">resolveInclude</span>(path.replace(/^\/*/,&#x27;&#x27;), options.root
- || &#x27;/&#x27;, true);
+if (path.charAt(0) == '/') {
+  includePath = exports.<span class="apidocCodeKeywordSpan">resolveInclude</span>(path.replace(/^\/*/,''), options.root
+ || '/', true);
 }
 else {
   if (!options.filename) {
-    throw new Error(&#x27;`include` use relative path requires the \&#x27;filename\&#x27; option.&#x27;);
+    throw new Error('`include` use relative path requires the \'filename\' option.');
   }
   includePath = exports.resolveInclude(path, options.filename);
 }
@@ -759,18 +752,18 @@ else {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 var filename = options.filename;
-var hasTemplate = arguments.length &#x3e; 1;
+var hasTemplate = arguments.length &gt; 1;
 
 if (options.cache) {
   if (!filename) {
-    throw new Error(&#x27;cache option requires a filename&#x27;);
+    throw new Error('cache option requires a filename');
   }
   func = exports.cache.<span class="apidocCodeKeywordSpan">get</span>(filename);
   if (func) {
     return func;
   }
   if (!hasTemplate) {
-    template = fileLoader(filename).toString().replace(_BOM, &#x27;&#x27;);
+    template = fileLoader(filename).toString().replace(_BOM, '');
   }
 }
 ...</pre></li>
@@ -820,10 +813,10 @@ this.mode = null;
   this._data[key] = val;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-     throw new Error(&#x27;Internal EJS error: no file name or template &#x27;
-                   + &#x27;provided&#x27;);
+     throw new Error('Internal EJS error: no file name or template '
+                   + 'provided');
    }
-   template = fileLoader(filename).toString().replace(_BOM, &#x27;&#x27;);
+   template = fileLoader(filename).toString().replace(_BOM, '');
  }
  func = exports.compile(template, options);
  if (options.cache) {
@@ -860,15 +853,15 @@ this.mode = null;
   var opts = {filename: filename};
   var data;
 
-  if (arguments.length &#x3e; 2) {
+  if (arguments.length &gt; 2) {
     data = arguments[1];
 
     // No options object -- if there are optiony names
     // in the data, copy them to options
     if (arguments.length === 3) {
       // Express 4
-      if (data.settings &#x26;&#x26; data.settings[&#x27;view options&#x27;]) {
-        utils.shallowCopyFromList(opts, data.settings[&#x27;view options&#x27;], _OPTS_EXPRESS);
+      if (data.settings &amp;&amp; data.settings['view options']) {
+        utils.shallowCopyFromList(opts, data.settings['view options'], _OPTS_EXPRESS);
       }
       // Express 3 and lower
       else {
@@ -876,7 +869,7 @@ this.mode = null;
       }
     }
     else {
-      // Use shallowCopy so we don&#x27;t pollute passed in opts obj with new vals
+      // Use shallowCopy so we don't pollute passed in opts obj with new vals
       utils.shallowCopy(opts, arguments[2]);
     }
 
@@ -919,11 +912,11 @@ this.mode = null;
   var templ;
 
   // v1 compat
-  // &#x27;scope&#x27; is &#x27;context&#x27;
+  // 'scope' is 'context'
   // FIXME: Remove this in a future version
-  if (opts &#x26;&#x26; opts.scope) {
+  if (opts &amp;&amp; opts.scope) {
     if (!scopeOptionWarned){
-      console.warn(&#x27;`scope` option is deprecated and will be removed in EJS 3&#x27;);
+      console.warn('`scope` option is deprecated and will be removed in EJS 3');
       scopeOptionWarned = true;
     }
     if (!opts.context) {
@@ -944,10 +937,10 @@ Try EJS online at: https://ionicabizau.github.io/ejs-playground/.
 ```javascript
 var template = ejs.<span class="apidocCodeKeywordSpan">compile</span>(str, options);
 template(data);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.render(str, data, options);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.renderFile(filename, data, options, function(err, str){
 ...</pre></li>
@@ -964,18 +957,18 @@ ejs.renderFile(filename, data, options, function(err, str){
     <ul>
     <li>description and source-code<pre class="apidocCodePre">escapeXML = function (markup) {
   return markup == undefined
-    ? &#x27;&#x27;
+    ? ''
     : String(markup)
         .replace(_MATCH_HTML, encode_char);
 };
 var _ENCODE_HTML_RULES = {
-      &#x22;&#x26;&#x22;: &#x22;&#x26;amp;&#x22;
-    , &#x22;&#x3c;&#x22;: &#x22;&#x26;lt;&#x22;
-    , &#x22;&#x3e;&#x22;: &#x22;&#x26;gt;&#x22;
-    , &#x27;&#x22;&#x27;: &#x22;&#x26;#34;&#x22;
-    , &#x22;&#x27;&#x22;: &#x22;&#x26;#39;&#x22;
+      "&amp;": "&amp;amp;"
+    , "&lt;": "&amp;lt;"
+    , "&gt;": "&amp;gt;"
+    , '"': "&amp;#34;"
+    , "'": "&amp;#39;"
     }
-  , _MATCH_HTML = /[&#x26;&#x3c;&#x3e;&#x27;&#x22;]/g;
+  , _MATCH_HTML = /[&amp;&lt;&gt;'"]/g;
 function encode_char(c) {
   return _ENCODE_HTML_RULES[c] || c;
 };
@@ -1010,13 +1003,13 @@ function encode_char(c) {
 ```javascript
 var template = ejs.compile(str, options);
 template(data);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.<span class="apidocCodeKeywordSpan">render</span>(str, data, options);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.renderFile(filename, data, options, function(err, str){
-    // str =&#x3e; Rendered HTML string
+    // str =&gt; Rendered HTML string
 });
 ```
 ...</pre></li>
@@ -1037,15 +1030,15 @@ ejs.renderFile(filename, data, options, function(err, str){
   var opts = {filename: filename};
   var data;
 
-  if (arguments.length &#x3e; 2) {
+  if (arguments.length &gt; 2) {
     data = arguments[1];
 
     // No options object -- if there are optiony names
     // in the data, copy them to options
     if (arguments.length === 3) {
       // Express 4
-      if (data.settings &#x26;&#x26; data.settings[&#x27;view options&#x27;]) {
-        utils.shallowCopyFromList(opts, data.settings[&#x27;view options&#x27;], _OPTS_EXPRESS);
+      if (data.settings &amp;&amp; data.settings['view options']) {
+        utils.shallowCopyFromList(opts, data.settings['view options'], _OPTS_EXPRESS);
       }
       // Express 3 and lower
       else {
@@ -1053,7 +1046,7 @@ ejs.renderFile(filename, data, options, function(err, str){
       }
     }
     else {
-      // Use shallowCopy so we don&#x27;t pollute passed in opts obj with new vals
+      // Use shallowCopy so we don't pollute passed in opts obj with new vals
       utils.shallowCopy(opts, arguments[2]);
     }
 
@@ -1068,18 +1061,18 @@ ejs.renderFile(filename, data, options, function(err, str){
     <li>example usage<pre class="apidocCodePre">...
 var template = ejs.compile(str, options);
 template(data);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.render(str, data, options);
-// =&#x3e; Rendered HTML string
+// =&gt; Rendered HTML string
 
 ejs.<span class="apidocCodeKeywordSpan">renderFile</span>(filename, data, options, function(err, str){
-    // str =&#x3e; Rendered HTML string
+    // str =&gt; Rendered HTML string
 });
 ```
 
 It is also possible to use `ejs.render(dataAndOptions);` where you pass
-everything in a single object. In that case, you&#x27;ll end up with local variables
+everything in a single object. In that case, you'll end up with local variables
 for all the passed options. However, be aware that your code could break if we
 ...</pre></li>
     </ul>
@@ -1100,7 +1093,7 @@ for all the passed options. However, be aware that your code could break if we
   var includePath = resolve(isDir ? filename : dirname(filename), name);
   var ext = extname(name);
   if (!ext) {
-    includePath += &#x27;.ejs&#x27;;
+    includePath += '.ejs';
   }
   return includePath;
 }</pre></li>
@@ -1111,13 +1104,13 @@ for all the passed options. However, be aware that your code could break if we
  */
 function getIncludePath(path, options){
 var includePath;
-if (path.charAt(0) == &#x27;/&#x27;) {
-  includePath = exports.<span class="apidocCodeKeywordSpan">resolveInclude</span>(path.replace(/^\/*/,&#x27;&#x27;), options.root
- || &#x27;/&#x27;, true);
+if (path.charAt(0) == '/') {
+  includePath = exports.<span class="apidocCodeKeywordSpan">resolveInclude</span>(path.replace(/^\/*/,''), options.root
+ || '/', true);
 }
 else {
   if (!options.filename) {
-    throw new Error(&#x27;`include` use relative path requires the \&#x27;filename\&#x27; option.&#x27;);
+    throw new Error('`include` use relative path requires the \'filename\' option.');
   }
   includePath = exports.resolveInclude(path, options.filename);
 }
@@ -1148,18 +1141,18 @@ else {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">escapeXML = function (markup) {
   return markup == undefined
-    ? &#x27;&#x27;
+    ? ''
     : String(markup)
         .replace(_MATCH_HTML, encode_char);
 };
 var _ENCODE_HTML_RULES = {
-      &#x22;&#x26;&#x22;: &#x22;&#x26;amp;&#x22;
-    , &#x22;&#x3c;&#x22;: &#x22;&#x26;lt;&#x22;
-    , &#x22;&#x3e;&#x22;: &#x22;&#x26;gt;&#x22;
-    , &#x27;&#x22;&#x27;: &#x22;&#x26;#34;&#x22;
-    , &#x22;&#x27;&#x22;: &#x22;&#x26;#39;&#x22;
+      "&amp;": "&amp;amp;"
+    , "&lt;": "&amp;lt;"
+    , "&gt;": "&amp;gt;"
+    , '"': "&amp;#34;"
+    , "'": "&amp;#39;"
     }
-  , _MATCH_HTML = /[&#x26;&#x3c;&#x3e;&#x27;&#x22;]/g;
+  , _MATCH_HTML = /[&amp;&lt;&gt;'"]/g;
 function encode_char(c) {
   return _ENCODE_HTML_RULES[c] || c;
 };
@@ -1177,24 +1170,24 @@ function encode_char(c) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">toString = function () {
-  return Function.prototype.toString.call(this) + &#x27;;\n&#x27; + escapeFuncStr;
+  return Function.prototype.toString.call(this) + ';\n' + escapeFuncStr;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
   - `_with`           Whether or not to use `with() {}` constructs. If `false` then the locals will be stored in the `locals` object
 . Set to `false` in strict mode.
   - `localsName`      Name to use for the object storing local variables when not using `with` Defaults to `locals`
   - `rmWhitespace`    Remove all safe-to-remove whitespace, including leading
-    and trailing whitespace. It also enables a safer version of `-%&#x3e;` line
+    and trailing whitespace. It also enables a safer version of `-%&gt;` line
     slurping for all scriptlet tags (it does not strip new lines of tags in
     the middle of a line).
-  - `escape`          The escaping function used with `&#x3c;%=` construct. It is
+  - `escape`          The escaping function used with `&lt;%=` construct. It is
     used in rendering and is `.<span class="apidocCodeKeywordSpan">toString</span>()`ed in the generation of client functions. (
 By default escapes XML).
 
 This project uses [JSDoc](http://usejsdoc.org/). For the full public API
 documentation, clone the repository and run `npm run doc`. This will run JSDoc
 with the proper options and output the documentation to `out/`. If you want
-the both the public &#x26; private API docs, run `npm run devdoc` instead.
+the both the public &amp; private API docs, run `npm run devdoc` instead.
 
 ## Tags
 ...</pre></li>
@@ -1217,13 +1210,13 @@ the both the public &#x26; private API docs, run `npm run devdoc` instead.
     <li>description and source-code<pre class="apidocCodePre">escapeRegExpChars = function (string) {
   // istanbul ignore if
   if (!string) {
-    return &#x27;&#x27;;
+    return '';
   }
-  return String(string).replace(regExpChars, &#x27;\\$&#x26;&#x27;);
+  return String(string).replace(regExpChars, '\\$&amp;');
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-COMMENT: &#x27;comment&#x27;,
-LITERAL: &#x27;literal&#x27;
+COMMENT: 'comment',
+LITERAL: 'literal'
 };
 
 Template.prototype = {
@@ -1251,18 +1244,18 @@ compile: function () {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">escapeXML = function (markup) {
   return markup == undefined
-    ? &#x27;&#x27;
+    ? ''
     : String(markup)
         .replace(_MATCH_HTML, encode_char);
 };
 var _ENCODE_HTML_RULES = {
-      &#x22;&#x26;&#x22;: &#x22;&#x26;amp;&#x22;
-    , &#x22;&#x3c;&#x22;: &#x22;&#x26;lt;&#x22;
-    , &#x22;&#x3e;&#x22;: &#x22;&#x26;gt;&#x22;
-    , &#x27;&#x22;&#x27;: &#x22;&#x26;#34;&#x22;
-    , &#x22;&#x27;&#x22;: &#x22;&#x26;#39;&#x22;
+      "&amp;": "&amp;amp;"
+    , "&lt;": "&amp;lt;"
+    , "&gt;": "&amp;gt;"
+    , '"': "&amp;#34;"
+    , "'": "&amp;#39;"
     }
-  , _MATCH_HTML = /[&#x26;&#x3c;&#x3e;&#x27;&#x22;]/g;
+  , _MATCH_HTML = /[&amp;&lt;&gt;'"]/g;
 function encode_char(c) {
   return _ENCODE_HTML_RULES[c] || c;
 };
@@ -1315,9 +1308,9 @@ function includeFile(path, options) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">shallowCopyFromList = function (to, from, list) {
-  for (var i = 0; i &#x3c; list.length; i++) {
+  for (var i = 0; i &lt; list.length; i++) {
     var p = list[i];
-    if (typeof from[p] != &#x27;undefined&#x27;) {
+    if (typeof from[p] != 'undefined') {
       to[p] = from[p];
     }
   }
@@ -1353,3 +1346,4 @@ exports.render = function (template, d, o) {
     ]
 </div>
 </div>
+</body></html>
