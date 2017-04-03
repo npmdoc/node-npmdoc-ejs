@@ -1,11 +1,13 @@
-# api documentation for  [ejs (v2.5.6)](https://github.com/mde/ejs)  [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-ejs.svg)](https://travis-ci.org/npmdoc/node-npmdoc-ejs)
+# api documentation for  [ejs (v2.5.6)](https://github.com/mde/ejs)  [![npm package](https://img.shields.io/npm/v/npmdoc-ejs.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-ejs) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-ejs.svg)](https://travis-ci.org/npmdoc/node-npmdoc-ejs)
 #### Embedded JavaScript templates
 
 [![NPM](https://nodei.co/npm/ejs.png?downloads=true)](https://www.npmjs.com/package/ejs)
 
-[![apidoc](https://npmdoc.github.io/node-npmdoc-ejs/build/screen-capture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-ejs_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-ejs/build..beta..travis-ci.org/apidoc.html)
+[![apidoc](https://npmdoc.github.io/node-npmdoc-ejs/build/screenCapture.buildNpmdoc.browser._2Fhome_2Ftravis_2Fbuild_2Fnpmdoc_2Fnode-npmdoc-ejs_2Ftmp_2Fbuild_2Fapidoc.html.png)](https://npmdoc.github.io/node-npmdoc-ejs/build..beta..travis-ci.org/apidoc.html)
 
-![package-listing](https://npmdoc.github.io/node-npmdoc-ejs/build/screen-capture.npmPackageListing.svg)
+![npmPackageListing](https://npmdoc.github.io/node-npmdoc-ejs/build/screenCapture.npmPackageListing.svg)
+
+![npmPackageDependencyTree](https://npmdoc.github.io/node-npmdoc-ejs/build/screenCapture.npmPackageDependencyTree.svg)
 
 
 
@@ -95,6 +97,7 @@
 1.  [function <span class="apidocSignatureSpan">ejs.</span>render (template, d, o)](#apidoc.element.ejs.render)
 1.  [function <span class="apidocSignatureSpan">ejs.</span>renderFile ()](#apidoc.element.ejs.renderFile)
 1.  [function <span class="apidocSignatureSpan">ejs.</span>resolveInclude (name, filename, isDir)](#apidoc.element.ejs.resolveInclude)
+1.  object <span class="apidocSignatureSpan"></span>ejs
 1.  object <span class="apidocSignatureSpan">ejs.</span>cache
 1.  object <span class="apidocSignatureSpan">ejs.</span>utils
 1.  string <span class="apidocSignatureSpan">ejs.</span>VERSION
@@ -106,6 +109,19 @@
 1.  [function <span class="apidocSignatureSpan">ejs.cache.</span>reset ()](#apidoc.element.ejs.cache.reset)
 1.  [function <span class="apidocSignatureSpan">ejs.cache.</span>set (key, val)](#apidoc.element.ejs.cache.set)
 1.  object <span class="apidocSignatureSpan">ejs.cache.</span>_data
+
+#### [module ejs.ejs](#apidoc.module.ejs.ejs)
+1.  [function <span class="apidocSignatureSpan">ejs.ejs.</span>__express ()](#apidoc.element.ejs.ejs.__express)
+1.  [function <span class="apidocSignatureSpan">ejs.ejs.</span>clearCache ()](#apidoc.element.ejs.ejs.clearCache)
+1.  [function <span class="apidocSignatureSpan">ejs.ejs.</span>compile (template, opts)](#apidoc.element.ejs.ejs.compile)
+1.  [function <span class="apidocSignatureSpan">ejs.ejs.</span>escapeXML (markup)](#apidoc.element.ejs.ejs.escapeXML)
+1.  [function <span class="apidocSignatureSpan">ejs.ejs.</span>render (template, d, o)](#apidoc.element.ejs.ejs.render)
+1.  [function <span class="apidocSignatureSpan">ejs.ejs.</span>renderFile ()](#apidoc.element.ejs.ejs.renderFile)
+1.  [function <span class="apidocSignatureSpan">ejs.ejs.</span>resolveInclude (name, filename, isDir)](#apidoc.element.ejs.ejs.resolveInclude)
+1.  object <span class="apidocSignatureSpan">ejs.ejs.</span>cache
+1.  string <span class="apidocSignatureSpan">ejs.ejs.</span>VERSION
+1.  string <span class="apidocSignatureSpan">ejs.ejs.</span>localsName
+1.  string <span class="apidocSignatureSpan">ejs.ejs.</span>name
 
 #### [module ejs.escapeXML](#apidoc.module.ejs.escapeXML)
 1.  [function <span class="apidocSignatureSpan">ejs.</span>escapeXML (markup)](#apidoc.element.ejs.escapeXML.escapeXML)
@@ -304,7 +320,23 @@ fileLoader = function (path, options) {
 ```
 - example usage
 ```shell
-n/a
+...
+*
+* @param {String} filePath ejs file path.
+* @return {String} The contents of the specified file.
+* @static
+*/
+
+function fileLoader(filePath){
+ return exports.fileLoader(filePath);
+}
+
+/**
+* Get the template function.
+*
+* If 'options.cache' is 'true', then the template is cached.
+*
+...
 ```
 
 #### <a name="apidoc.element.ejs.render"></a>[function <span class="apidocSignatureSpan">ejs.</span>render (template, d, o)](#apidoc.element.ejs.render)
@@ -419,7 +451,23 @@ resolveInclude = function (name, filename, isDir) {
 ```
 - example usage
 ```shell
-n/a
+...
+ * @param  {String}  path    specified path
+ * @param  {Options} options compilation options
+ * @return {String}
+ */
+function getIncludePath(path, options){
+var includePath;
+if (path.charAt(0) == '/') {
+  includePath = exports.resolveInclude(path.replace(/^\/*/,''), options.root || '/', true);
+}
+else {
+  if (!options.filename) {
+    throw new Error(''include' use relative path requires the \'filename\' option.');
+  }
+  includePath = exports.resolveInclude(path, options.filename);
+}
+...
 ```
 
 
@@ -435,7 +483,23 @@ get = function (key) {
 ```
 - example usage
 ```shell
-n/a
+...
+var filename = options.filename;
+var hasTemplate = arguments.length > 1;
+
+if (options.cache) {
+  if (!filename) {
+    throw new Error('cache option requires a filename');
+  }
+  func = exports.cache.get(filename);
+  if (func) {
+    return func;
+  }
+  if (!hasTemplate) {
+    template = fileLoader(filename).toString().replace(_BOM, '');
+  }
+}
+...
 ```
 
 #### <a name="apidoc.element.ejs.cache.reset"></a>[function <span class="apidocSignatureSpan">ejs.cache.</span>reset ()](#apidoc.element.ejs.cache.reset)
@@ -447,7 +511,23 @@ reset = function () {
 ```
 - example usage
 ```shell
-n/a
+...
+
+/**
+ * Clear intermediate JavaScript cache. Calls {@link Cache#reset}.
+ * @public
+ */
+
+exports.clearCache = function () {
+exports.cache.reset();
+};
+
+function Template(text, opts) {
+opts = opts || {};
+var options = {};
+this.templateText = text;
+this.mode = null;
+...
 ```
 
 #### <a name="apidoc.element.ejs.cache.set"></a>[function <span class="apidocSignatureSpan">ejs.cache.</span>set (key, val)](#apidoc.element.ejs.cache.set)
@@ -459,7 +539,284 @@ set = function (key, val) {
 ```
 - example usage
 ```shell
+...
+     throw new Error('Internal EJS error: no file name or template '
+                   + 'provided');
+   }
+   template = fileLoader(filename).toString().replace(_BOM, '');
+ }
+ func = exports.compile(template, options);
+ if (options.cache) {
+   exports.cache.set(filename, func);
+ }
+ return func;
+}
+
+/**
+* Try calling handleCache with the given options and data and call the
+* callback with the result. If an error occurs, call the callback with
+...
+```
+
+
+
+# <a name="apidoc.module.ejs.ejs"></a>[module ejs.ejs](#apidoc.module.ejs.ejs)
+
+#### <a name="apidoc.element.ejs.ejs.__express"></a>[function <span class="apidocSignatureSpan">ejs.ejs.</span>__express ()](#apidoc.element.ejs.ejs.__express)
+- description and source-code
+```javascript
+__express = function () {
+  var filename = arguments[0];
+  var cb = arguments[arguments.length - 1];
+  var opts = {filename: filename};
+  var data;
+
+  if (arguments.length > 2) {
+    data = arguments[1];
+
+    // No options object -- if there are optiony names
+    // in the data, copy them to options
+    if (arguments.length === 3) {
+      // Express 4
+      if (data.settings && data.settings['view options']) {
+        utils.shallowCopyFromList(opts, data.settings['view options'], _OPTS_EXPRESS);
+      }
+      // Express 3 and lower
+      else {
+        utils.shallowCopyFromList(opts, data, _OPTS_EXPRESS);
+      }
+    }
+    else {
+      // Use shallowCopy so we don't pollute passed in opts obj with new vals
+      utils.shallowCopy(opts, arguments[2]);
+    }
+
+    opts.filename = filename;
+  }
+  else {
+    data = {};
+  }
+
+  return tryHandleCache(opts, data, cb);
+}
+```
+- example usage
+```shell
 n/a
+```
+
+#### <a name="apidoc.element.ejs.ejs.clearCache"></a>[function <span class="apidocSignatureSpan">ejs.ejs.</span>clearCache ()](#apidoc.element.ejs.ejs.clearCache)
+- description and source-code
+```javascript
+clearCache = function () {
+  exports.cache.reset();
+}
+```
+- example usage
+```shell
+n/a
+```
+
+#### <a name="apidoc.element.ejs.ejs.compile"></a>[function <span class="apidocSignatureSpan">ejs.ejs.</span>compile (template, opts)](#apidoc.element.ejs.ejs.compile)
+- description and source-code
+```javascript
+function compile(template, opts) {
+  var templ;
+
+  // v1 compat
+  // 'scope' is 'context'
+  // FIXME: Remove this in a future version
+  if (opts && opts.scope) {
+    if (!scopeOptionWarned){
+      console.warn(''scope' option is deprecated and will be removed in EJS 3');
+      scopeOptionWarned = true;
+    }
+    if (!opts.context) {
+      opts.context = opts.scope;
+    }
+    delete opts.scope;
+  }
+  templ = new Template(template, opts);
+  return templ.compile();
+}
+```
+- example usage
+```shell
+...
+'''
+
+Try EJS online at: https://ionicabizau.github.io/ejs-playground/.
+
+## Usage
+
+'''javascript
+var template = ejs.compile(str, options);
+template(data);
+// => Rendered HTML string
+
+ejs.render(str, data, options);
+// => Rendered HTML string
+
+ejs.renderFile(filename, data, options, function(err, str){
+...
+```
+
+#### <a name="apidoc.element.ejs.ejs.escapeXML"></a>[function <span class="apidocSignatureSpan">ejs.ejs.</span>escapeXML (markup)](#apidoc.element.ejs.ejs.escapeXML)
+- description and source-code
+```javascript
+escapeXML = function (markup) {
+  return markup == undefined
+    ? ''
+    : String(markup)
+        .replace(_MATCH_HTML, encode_char);
+};
+var _ENCODE_HTML_RULES = {
+      "&": "&amp;"
+    , "<": "&lt;"
+    , ">": "&gt;"
+    , '"': "&#34;"
+    , "'": "&#39;"
+    }
+  , _MATCH_HTML = /[&<>'"]/g;
+function encode_char(c) {
+  return _ENCODE_HTML_RULES[c] || c;
+};
+
+```
+- example usage
+```shell
+n/a
+```
+
+#### <a name="apidoc.element.ejs.ejs.render"></a>[function <span class="apidocSignatureSpan">ejs.ejs.</span>render (template, d, o)](#apidoc.element.ejs.ejs.render)
+- description and source-code
+```javascript
+render = function (template, d, o) {
+  var data = d || {};
+  var opts = o || {};
+
+  // No options object -- if there are optiony names
+  // in the data, copy them to options
+  if (arguments.length == 2) {
+    utils.shallowCopyFromList(opts, data, _OPTS);
+  }
+
+  return handleCache(opts, template)(data);
+}
+```
+- example usage
+```shell
+...
+## Usage
+
+'''javascript
+var template = ejs.compile(str, options);
+template(data);
+// => Rendered HTML string
+
+ejs.render(str, data, options);
+// => Rendered HTML string
+
+ejs.renderFile(filename, data, options, function(err, str){
+    // str => Rendered HTML string
+});
+'''
+...
+```
+
+#### <a name="apidoc.element.ejs.ejs.renderFile"></a>[function <span class="apidocSignatureSpan">ejs.ejs.</span>renderFile ()](#apidoc.element.ejs.ejs.renderFile)
+- description and source-code
+```javascript
+renderFile = function () {
+  var filename = arguments[0];
+  var cb = arguments[arguments.length - 1];
+  var opts = {filename: filename};
+  var data;
+
+  if (arguments.length > 2) {
+    data = arguments[1];
+
+    // No options object -- if there are optiony names
+    // in the data, copy them to options
+    if (arguments.length === 3) {
+      // Express 4
+      if (data.settings && data.settings['view options']) {
+        utils.shallowCopyFromList(opts, data.settings['view options'], _OPTS_EXPRESS);
+      }
+      // Express 3 and lower
+      else {
+        utils.shallowCopyFromList(opts, data, _OPTS_EXPRESS);
+      }
+    }
+    else {
+      // Use shallowCopy so we don't pollute passed in opts obj with new vals
+      utils.shallowCopy(opts, arguments[2]);
+    }
+
+    opts.filename = filename;
+  }
+  else {
+    data = {};
+  }
+
+  return tryHandleCache(opts, data, cb);
+}
+```
+- example usage
+```shell
+...
+var template = ejs.compile(str, options);
+template(data);
+// => Rendered HTML string
+
+ejs.render(str, data, options);
+// => Rendered HTML string
+
+ejs.renderFile(filename, data, options, function(err, str){
+    // str => Rendered HTML string
+});
+'''
+
+It is also possible to use 'ejs.render(dataAndOptions);' where you pass
+everything in a single object. In that case, you'll end up with local variables
+for all the passed options. However, be aware that your code could break if we
+...
+```
+
+#### <a name="apidoc.element.ejs.ejs.resolveInclude"></a>[function <span class="apidocSignatureSpan">ejs.ejs.</span>resolveInclude (name, filename, isDir)](#apidoc.element.ejs.ejs.resolveInclude)
+- description and source-code
+```javascript
+resolveInclude = function (name, filename, isDir) {
+  var dirname = path.dirname;
+  var extname = path.extname;
+  var resolve = path.resolve;
+  var includePath = resolve(isDir ? filename : dirname(filename), name);
+  var ext = extname(name);
+  if (!ext) {
+    includePath += '.ejs';
+  }
+  return includePath;
+}
+```
+- example usage
+```shell
+...
+ * @param  {String}  path    specified path
+ * @param  {Options} options compilation options
+ * @return {String}
+ */
+function getIncludePath(path, options){
+var includePath;
+if (path.charAt(0) == '/') {
+  includePath = exports.resolveInclude(path.replace(/^\/*/,''), options.root || '/', true);
+}
+else {
+  if (!options.filename) {
+    throw new Error(''include' use relative path requires the \'filename\' option.');
+  }
+  includePath = exports.resolveInclude(path, options.filename);
+}
+...
 ```
 
 
@@ -539,7 +896,23 @@ escapeRegExpChars = function (string) {
 ```
 - example usage
 ```shell
-n/a
+...
+COMMENT: 'comment',
+LITERAL: 'literal'
+};
+
+Template.prototype = {
+createRegex: function () {
+  var str = _REGEX_STRING;
+  var delim = utils.escapeRegExpChars(this.opts.delimiter);
+  str = str.replace(/%/g, delim);
+  return new RegExp(str);
+},
+
+compile: function () {
+  var src;
+  var fn;
+...
 ```
 
 #### <a name="apidoc.element.ejs.utils.escapeXML"></a>[function <span class="apidocSignatureSpan">ejs.utils.</span>escapeXML (markup)](#apidoc.element.ejs.utils.escapeXML)
@@ -582,7 +955,23 @@ shallowCopy = function (to, from) {
 ```
 - example usage
 ```shell
-n/a
+...
+* @param {Options} options compilation options
+* @return {(TemplateFunction|ClientFunction)}
+* Depending on the value of 'options.client', either type might be returned
+* @static
+*/
+
+function includeFile(path, options) {
+ var opts = utils.shallowCopy({}, options);
+ opts.filename = getIncludePath(path, opts);
+ return handleCache(opts);
+}
+
+/**
+* Get the JavaScript source of an included file.
+*
+...
 ```
 
 #### <a name="apidoc.element.ejs.utils.shallowCopyFromList"></a>[function <span class="apidocSignatureSpan">ejs.utils.</span>shallowCopyFromList (to, from, list)](#apidoc.element.ejs.utils.shallowCopyFromList)
@@ -600,7 +989,23 @@ shallowCopyFromList = function (to, from, list) {
 ```
 - example usage
 ```shell
-n/a
+...
+exports.render = function (template, d, o) {
+ var data = d || {};
+ var opts = o || {};
+
+ // No options object -- if there are optiony names
+ // in the data, copy them to options
+ if (arguments.length == 2) {
+   utils.shallowCopyFromList(opts, data, _OPTS);
+ }
+
+ return handleCache(opts, template)(data);
+};
+
+/**
+* Render an EJS file at the given 'path' and callback 'cb(err, str)'.
+...
 ```
 
 
